@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/AWSRekognitionComparedFace.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/AWSRekognitionComparedFace</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Provides face metadata (bounding box and confidence that the bounding box actually contains a face).&lt;/p&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+            
+			
+			<NodeRef refid="1454"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/AWSRekognitionComparedFace/setBoundingBox:</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Identifies the bounding box around the object or face. The &lt;code&gt;left&lt;/code&gt; (x-coordinate) and &lt;code&gt;top&lt;/code&gt; (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). &lt;/p&gt;&lt;p&gt;The &lt;code&gt;top&lt;/code&gt; and &lt;code&gt;left&lt;/code&gt; values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a &lt;code&gt;left&lt;/code&gt; value of 0.5 (350/700) and a &lt;code&gt;top&lt;/code&gt; value of 0.25 (50/200).&lt;/p&gt;&lt;p&gt; The &lt;code&gt;width&lt;/code&gt; and &lt;code&gt;height&lt;/code&gt; values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. &lt;/p&gt;&lt;note&gt;&lt;p&gt; The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the &lt;code&gt;left&lt;/code&gt; or &lt;code&gt;top&lt;/code&gt; values. &lt;/p&gt;&lt;/note&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) AWSRekognitionBoundingBox *boundingBox</Declaration>
+			
+			
+			<Anchor>//api/name/boundingBox</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/AWSRekognitionComparedFace/boundingBox</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Identifies the bounding box around the object or face. The &lt;code&gt;left&lt;/code&gt; (x-coordinate) and &lt;code&gt;top&lt;/code&gt; (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). &lt;/p&gt;&lt;p&gt;The &lt;code&gt;top&lt;/code&gt; and &lt;code&gt;left&lt;/code&gt; values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a &lt;code&gt;left&lt;/code&gt; value of 0.5 (350/700) and a &lt;code&gt;top&lt;/code&gt; value of 0.25 (50/200).&lt;/p&gt;&lt;p&gt; The &lt;code&gt;width&lt;/code&gt; and &lt;code&gt;height&lt;/code&gt; values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. &lt;/p&gt;&lt;note&gt;&lt;p&gt; The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the &lt;code&gt;left&lt;/code&gt; or &lt;code&gt;top&lt;/code&gt; values. &lt;/p&gt;&lt;/note&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) AWSRekognitionBoundingBox *boundingBox</Declaration>
+			
+			
+			<Anchor>//api/name/boundingBox</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/AWSRekognitionComparedFace/boundingBox</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Identifies the bounding box around the object or face. The &lt;code&gt;left&lt;/code&gt; (x-coordinate) and &lt;code&gt;top&lt;/code&gt; (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). &lt;/p&gt;&lt;p&gt;The &lt;code&gt;top&lt;/code&gt; and &lt;code&gt;left&lt;/code&gt; values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a &lt;code&gt;left&lt;/code&gt; value of 0.5 (350/700) and a &lt;code&gt;top&lt;/code&gt; value of 0.25 (50/200).&lt;/p&gt;&lt;p&gt; The &lt;code&gt;width&lt;/code&gt; and &lt;code&gt;height&lt;/code&gt; values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. &lt;/p&gt;&lt;note&gt;&lt;p&gt; The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the &lt;code&gt;left&lt;/code&gt; or &lt;code&gt;top&lt;/code&gt; values. &lt;/p&gt;&lt;/note&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) AWSRekognitionBoundingBox *boundingBox</Declaration>
+			
+			
+			<Anchor>//api/name/boundingBox</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/AWSRekognitionComparedFace/setConfidence:</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Level of confidence that what the bounding box contains is a face.&lt;/p&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *confidence</Declaration>
+			
+			
+			<Anchor>//api/name/confidence</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/AWSRekognitionComparedFace/confidence</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Level of confidence that what the bounding box contains is a face.&lt;/p&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *confidence</Declaration>
+			
+			
+			<Anchor>//api/name/confidence</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/AWSRekognitionComparedFace/confidence</TokenIdentifier>
+			<Abstract type="html">&lt;p&gt;Level of confidence that what the bounding box contains is a face.&lt;/p&gt;</Abstract>
+			<DeclaredIn>AWSRekognitionModel.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSNumber *confidence</Declaration>
+			
+			
+			<Anchor>//api/name/confidence</Anchor>
+            <NodeRef refid="1454"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>
