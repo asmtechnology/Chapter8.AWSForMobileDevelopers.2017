@@ -12,24 +12,27 @@
 		9122AFE31E6C0CB20024AE10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9122AFE11E6C0CB20024AE10 /* Main.storyboard */; };
 		9122AFE51E6C0CB20024AE10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9122AFE41E6C0CB20024AE10 /* Assets.xcassets */; };
 		9122AFE81E6C0CB20024AE10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9122AFE61E6C0CB20024AE10 /* LaunchScreen.storyboard */; };
-		9122AFF21E6C7E070024AE10 /* AWSCognito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFEF1E6C7E070024AE10 /* AWSCognito.framework */; };
-		9122AFF31E6C7E070024AE10 /* AWSCognito.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFEF1E6C7E070024AE10 /* AWSCognito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9122AFF41E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFF01E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework */; };
-		9122AFF51E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFF01E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9122AFF61E6C7E070024AE10 /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFF11E6C7E070024AE10 /* AWSCore.framework */; };
-		9122AFF71E6C7E070024AE10 /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9122AFF11E6C7E070024AE10 /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		915428AD224A9EC7004CF67A /* AWSCognito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AA224A9EC6004CF67A /* AWSCognito.framework */; };
+		915428AE224A9EC7004CF67A /* AWSCognito.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AA224A9EC6004CF67A /* AWSCognito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		915428AF224A9EC7004CF67A /* AWSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AB224A9EC7004CF67A /* AWSCore.framework */; };
+		915428B0224A9EC7004CF67A /* AWSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AB224A9EC7004CF67A /* AWSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		915428B1224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AC224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework */; };
+		915428B2224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 915428AC224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		915428B6224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 915428B5224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework */; };
+		915428B7224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 915428B5224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9122AFF81E6C7E070024AE10 /* Embed Frameworks */ = {
+		915428B3224A9EC7004CF67A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9122AFF31E6C7E070024AE10 /* AWSCognito.framework in Embed Frameworks */,
-				9122AFF51E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework in Embed Frameworks */,
-				9122AFF71E6C7E070024AE10 /* AWSCore.framework in Embed Frameworks */,
+				915428B7224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework in Embed Frameworks */,
+				915428AE224A9EC7004CF67A /* AWSCognito.framework in Embed Frameworks */,
+				915428B2224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework in Embed Frameworks */,
+				915428B0224A9EC7004CF67A /* AWSCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,9 +47,10 @@
 		9122AFE41E6C0CB20024AE10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9122AFE71E6C0CB20024AE10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9122AFE91E6C0CB20024AE10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9122AFEF1E6C7E070024AE10 /* AWSCognito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognito.framework; path = Carthage/Build/iOS/AWSCognito.framework; sourceTree = "<group>"; };
-		9122AFF01E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognitoIdentityProvider.framework; path = Carthage/Build/iOS/AWSCognitoIdentityProvider.framework; sourceTree = "<group>"; };
-		9122AFF11E6C7E070024AE10 /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = "<group>"; };
+		915428AA224A9EC6004CF67A /* AWSCognito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognito.framework; path = Carthage/Build/iOS/AWSCognito.framework; sourceTree = "<group>"; };
+		915428AB224A9EC7004CF67A /* AWSCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCore.framework; path = Carthage/Build/iOS/AWSCore.framework; sourceTree = "<group>"; };
+		915428AC224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognitoIdentityProvider.framework; path = Carthage/Build/iOS/AWSCognitoIdentityProvider.framework; sourceTree = "<group>"; };
+		915428B5224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSCognitoIdentityProviderASF.framework; path = Carthage/Build/iOS/AWSCognitoIdentityProviderASF.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +58,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9122AFF21E6C7E070024AE10 /* AWSCognito.framework in Frameworks */,
-				9122AFF41E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework in Frameworks */,
-				9122AFF61E6C7E070024AE10 /* AWSCore.framework in Frameworks */,
+				915428B6224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework in Frameworks */,
+				915428AD224A9EC7004CF67A /* AWSCognito.framework in Frameworks */,
+				915428B1224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework in Frameworks */,
+				915428AF224A9EC7004CF67A /* AWSCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,9 +71,10 @@
 		9122AFD11E6C0CB20024AE10 = {
 			isa = PBXGroup;
 			children = (
-				9122AFEF1E6C7E070024AE10 /* AWSCognito.framework */,
-				9122AFF01E6C7E070024AE10 /* AWSCognitoIdentityProvider.framework */,
-				9122AFF11E6C7E070024AE10 /* AWSCore.framework */,
+				915428B5224AA193004CF67A /* AWSCognitoIdentityProviderASF.framework */,
+				915428AA224A9EC6004CF67A /* AWSCognito.framework */,
+				915428AC224A9EC7004CF67A /* AWSCognitoIdentityProvider.framework */,
+				915428AB224A9EC7004CF67A /* AWSCore.framework */,
 				9122AFDC1E6C0CB20024AE10 /* AWSSDKWithCarthage */,
 				9122AFDB1E6C0CB20024AE10 /* Products */,
 			);
@@ -105,8 +111,8 @@
 				9122AFD61E6C0CB20024AE10 /* Sources */,
 				9122AFD71E6C0CB20024AE10 /* Frameworks */,
 				9122AFD81E6C0CB20024AE10 /* Resources */,
-				9122AFF81E6C7E070024AE10 /* Embed Frameworks */,
-				9122AFF91E6C7E550024AE10 /* ShellScript */,
+				915428B3224A9EC7004CF67A /* Embed Frameworks */,
+				915428B4224AA10F004CF67A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -129,6 +135,7 @@
 				TargetAttributes = {
 					9122AFD91E6C0CB20024AE10 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -165,12 +172,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9122AFF91E6C7E550024AE10 /* ShellScript */ = {
+		915428B4224AA10F004CF67A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+			);
+			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
@@ -315,7 +326,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.asmtechnology.AWSSDKWithCarthage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -331,7 +342,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.asmtechnology.AWSSDKWithCarthage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
