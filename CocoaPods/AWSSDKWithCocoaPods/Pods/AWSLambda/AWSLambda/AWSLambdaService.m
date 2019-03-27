@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -24,9 +24,10 @@
 #import <AWSCore/AWSURLRequestRetryHandler.h>
 #import <AWSCore/AWSSynchronizedMutableDictionary.h>
 #import "AWSLambdaResources.h"
+#import "AWSLambdaRequestRetryHandler.h"
 
 static NSString *const AWSInfoLambda = @"Lambda";
-static NSString *const AWSLambdaSDKVersion = @"2.4.16";
+NSString *const AWSLambdaSDKVersion = @"2.9.3";
 
 
 @interface AWSLambdaResponseSerializer : AWSJSONResponseSerializer
@@ -47,12 +48,19 @@ static NSDictionary *errorCodeDictionary = nil;
                             @"ENILimitReachedException" : @(AWSLambdaErrorENILimitReached),
                             @"InvalidParameterValueException" : @(AWSLambdaErrorInvalidParameterValue),
                             @"InvalidRequestContentException" : @(AWSLambdaErrorInvalidRequestContent),
+                            @"InvalidRuntimeException" : @(AWSLambdaErrorInvalidRuntime),
                             @"InvalidSecurityGroupIDException" : @(AWSLambdaErrorInvalidSecurityGroupID),
                             @"InvalidSubnetIDException" : @(AWSLambdaErrorInvalidSubnetID),
                             @"InvalidZipFileException" : @(AWSLambdaErrorInvalidZipFile),
+                            @"KMSAccessDeniedException" : @(AWSLambdaErrorKMSAccessDenied),
+                            @"KMSDisabledException" : @(AWSLambdaErrorKMSDisabled),
+                            @"KMSInvalidStateException" : @(AWSLambdaErrorKMSInvalidState),
+                            @"KMSNotFoundException" : @(AWSLambdaErrorKMSNotFound),
                             @"PolicyLengthExceededException" : @(AWSLambdaErrorPolicyLengthExceeded),
+                            @"PreconditionFailedException" : @(AWSLambdaErrorPreconditionFailed),
                             @"RequestTooLargeException" : @(AWSLambdaErrorRequestTooLarge),
                             @"ResourceConflictException" : @(AWSLambdaErrorResourceConflict),
+                            @"ResourceInUseException" : @(AWSLambdaErrorResourceInUse),
                             @"ResourceNotFoundException" : @(AWSLambdaErrorResourceNotFound),
                             @"ServiceException" : @(AWSLambdaErrorService),
                             @"SubnetIPAddressLimitReachedException" : @(AWSLambdaErrorSubnetIPAddressLimitReached),
@@ -127,7 +135,7 @@ static NSDictionary *errorCodeDictionary = nil;
                 *error = [NSError errorWithDomain:AWSLambdaErrorDomain
                                              code:AWSLambdaErrorUnknown
                                          userInfo:responseObject];
-            }
+            } 
             return responseObject;
         }
         
@@ -146,18 +154,12 @@ static NSDictionary *errorCodeDictionary = nil;
                  @"responseDataSize" : @(data?[data length]:0),
                  };
     }
+	
     return responseObject;
 }
 
 @end
 
-@interface AWSLambdaRequestRetryHandler : AWSURLRequestRetryHandler
-
-@end
-
-@implementation AWSLambdaRequestRetryHandler
-
-@end
 
 @interface AWSRequest()
 
@@ -217,7 +219,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (!serviceConfiguration) {
             @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                           reason:@"The service configuration is `nil`. You need to configure `Info.plist` or set `defaultServiceConfiguration` before using this method."
+                                           reason:@"The service configuration is `nil`. You need to configure `awsconfiguration.json`, `Info.plist` or set `defaultServiceConfiguration` before using this method."
                                          userInfo:nil];
         }
         _defaultLambda = [[AWSLambda alloc] initWithConfiguration:serviceConfiguration];
@@ -328,6 +330,29 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
 #pragma mark - Service method
 
+- (AWSTask<AWSLambdaAddLayerVersionPermissionResponse *> *)addLayerVersionPermission:(AWSLambdaAddLayerVersionPermissionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy"
+                  targetPrefix:@""
+                 operationName:@"AddLayerVersionPermission"
+                   outputClass:[AWSLambdaAddLayerVersionPermissionResponse class]];
+}
+
+- (void)addLayerVersionPermission:(AWSLambdaAddLayerVersionPermissionRequest *)request
+     completionHandler:(void (^)(AWSLambdaAddLayerVersionPermissionResponse *response, NSError *error))completionHandler {
+    [[self addLayerVersionPermission:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaAddLayerVersionPermissionResponse *> * _Nonnull task) {
+        AWSLambdaAddLayerVersionPermissionResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSLambdaAddPermissionResponse *> *)addPermission:(AWSLambdaAddPermissionRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -342,11 +367,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self addPermission:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaAddPermissionResponse *> * _Nonnull task) {
         AWSLambdaAddPermissionResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -371,11 +391,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaAliasConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -398,11 +413,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createEventSourceMapping:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaEventSourceMappingConfiguration *> * _Nonnull task) {
         AWSLambdaEventSourceMappingConfiguration *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -427,11 +437,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaFunctionConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -453,11 +458,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteAlias:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -482,11 +482,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaEventSourceMappingConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -509,13 +504,75 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteFunction:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)deleteFunctionConcurrency:(AWSLambdaDeleteFunctionConcurrencyRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/2017-10-31/functions/{FunctionName}/concurrency"
+                  targetPrefix:@""
+                 operationName:@"DeleteFunctionConcurrency"
+                   outputClass:nil];
+}
+
+- (void)deleteFunctionConcurrency:(AWSLambdaDeleteFunctionConcurrencyRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self deleteFunctionConcurrency:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)deleteLayerVersion:(AWSLambdaDeleteLayerVersionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions/{VersionNumber}"
+                  targetPrefix:@""
+                 operationName:@"DeleteLayerVersion"
+                   outputClass:nil];
+}
+
+- (void)deleteLayerVersion:(AWSLambdaDeleteLayerVersionRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self deleteLayerVersion:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaGetAccountSettingsResponse *> *)getAccountSettings:(AWSLambdaGetAccountSettingsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2016-08-19/account-settings/"
+                  targetPrefix:@""
+                 operationName:@"GetAccountSettings"
+                   outputClass:[AWSLambdaGetAccountSettingsResponse class]];
+}
+
+- (void)getAccountSettings:(AWSLambdaGetAccountSettingsRequest *)request
+     completionHandler:(void (^)(AWSLambdaGetAccountSettingsResponse *response, NSError *error))completionHandler {
+    [[self getAccountSettings:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaGetAccountSettingsResponse *> * _Nonnull task) {
+        AWSLambdaGetAccountSettingsResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -536,11 +593,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self getAlias:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaAliasConfiguration *> * _Nonnull task) {
         AWSLambdaAliasConfiguration *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -565,11 +617,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaEventSourceMappingConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -592,11 +639,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self getFunction:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaGetFunctionResponse *> * _Nonnull task) {
         AWSLambdaGetFunctionResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -621,10 +663,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaFunctionConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaGetLayerVersionResponse *> *)getLayerVersion:(AWSLambdaGetLayerVersionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions/{VersionNumber}"
+                  targetPrefix:@""
+                 operationName:@"GetLayerVersion"
+                   outputClass:[AWSLambdaGetLayerVersionResponse class]];
+}
+
+- (void)getLayerVersion:(AWSLambdaGetLayerVersionRequest *)request
+     completionHandler:(void (^)(AWSLambdaGetLayerVersionResponse *response, NSError *error))completionHandler {
+    [[self getLayerVersion:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaGetLayerVersionResponse *> * _Nonnull task) {
+        AWSLambdaGetLayerVersionResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaGetLayerVersionPolicyResponse *> *)getLayerVersionPolicy:(AWSLambdaGetLayerVersionPolicyRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy"
+                  targetPrefix:@""
+                 operationName:@"GetLayerVersionPolicy"
+                   outputClass:[AWSLambdaGetLayerVersionPolicyResponse class]];
+}
+
+- (void)getLayerVersionPolicy:(AWSLambdaGetLayerVersionPolicyRequest *)request
+     completionHandler:(void (^)(AWSLambdaGetLayerVersionPolicyResponse *response, NSError *error))completionHandler {
+    [[self getLayerVersionPolicy:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaGetLayerVersionPolicyResponse *> * _Nonnull task) {
+        AWSLambdaGetLayerVersionPolicyResponse *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -649,11 +732,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaGetPolicyResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -676,11 +754,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self invoke:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaInvocationResponse *> * _Nonnull task) {
         AWSLambdaInvocationResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -705,11 +778,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaInvokeAsyncResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -732,11 +800,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self listAliases:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaListAliasesResponse *> * _Nonnull task) {
         AWSLambdaListAliasesResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -761,11 +824,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaListEventSourceMappingsResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -789,10 +847,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaListFunctionsResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaListLayerVersionsResponse *> *)listLayerVersions:(AWSLambdaListLayerVersionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions"
+                  targetPrefix:@""
+                 operationName:@"ListLayerVersions"
+                   outputClass:[AWSLambdaListLayerVersionsResponse class]];
+}
+
+- (void)listLayerVersions:(AWSLambdaListLayerVersionsRequest *)request
+     completionHandler:(void (^)(AWSLambdaListLayerVersionsResponse *response, NSError *error))completionHandler {
+    [[self listLayerVersions:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaListLayerVersionsResponse *> * _Nonnull task) {
+        AWSLambdaListLayerVersionsResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaListLayersResponse *> *)listLayers:(AWSLambdaListLayersRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2018-10-31/layers"
+                  targetPrefix:@""
+                 operationName:@"ListLayers"
+                   outputClass:[AWSLambdaListLayersResponse class]];
+}
+
+- (void)listLayers:(AWSLambdaListLayersRequest *)request
+     completionHandler:(void (^)(AWSLambdaListLayersResponse *response, NSError *error))completionHandler {
+    [[self listLayers:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaListLayersResponse *> * _Nonnull task) {
+        AWSLambdaListLayersResponse *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaListTagsResponse *> *)listTags:(AWSLambdaListTagsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodGET
+                     URLString:@"/2017-03-31/tags/{ARN}"
+                  targetPrefix:@""
+                 operationName:@"ListTags"
+                   outputClass:[AWSLambdaListTagsResponse class]];
+}
+
+- (void)listTags:(AWSLambdaListTagsRequest *)request
+     completionHandler:(void (^)(AWSLambdaListTagsResponse *response, NSError *error))completionHandler {
+    [[self listTags:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaListTagsResponse *> * _Nonnull task) {
+        AWSLambdaListTagsResponse *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -817,10 +939,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaListVersionsByFunctionResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaPublishLayerVersionResponse *> *)publishLayerVersion:(AWSLambdaPublishLayerVersionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions"
+                  targetPrefix:@""
+                 operationName:@"PublishLayerVersion"
+                   outputClass:[AWSLambdaPublishLayerVersionResponse class]];
+}
+
+- (void)publishLayerVersion:(AWSLambdaPublishLayerVersionRequest *)request
+     completionHandler:(void (^)(AWSLambdaPublishLayerVersionResponse *response, NSError *error))completionHandler {
+    [[self publishLayerVersion:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaPublishLayerVersionResponse *> * _Nonnull task) {
+        AWSLambdaPublishLayerVersionResponse *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -845,13 +985,53 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaFunctionConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSLambdaConcurrency *> *)putFunctionConcurrency:(AWSLambdaPutFunctionConcurrencyRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPUT
+                     URLString:@"/2017-10-31/functions/{FunctionName}/concurrency"
+                  targetPrefix:@""
+                 operationName:@"PutFunctionConcurrency"
+                   outputClass:[AWSLambdaConcurrency class]];
+}
+
+- (void)putFunctionConcurrency:(AWSLambdaPutFunctionConcurrencyRequest *)request
+     completionHandler:(void (^)(AWSLambdaConcurrency *response, NSError *error))completionHandler {
+    [[self putFunctionConcurrency:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaConcurrency *> * _Nonnull task) {
+        AWSLambdaConcurrency *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)removeLayerVersionPermission:(AWSLambdaRemoveLayerVersionPermissionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}"
+                  targetPrefix:@""
+                 operationName:@"RemoveLayerVersionPermission"
+                   outputClass:nil];
+}
+
+- (void)removeLayerVersionPermission:(AWSLambdaRemoveLayerVersionPermissionRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self removeLayerVersionPermission:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
         }
 
         return nil;
@@ -872,10 +1052,49 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self removePermission:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)tagResource:(AWSLambdaTagResourceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@"/2017-03-31/tags/{ARN}"
+                  targetPrefix:@""
+                 operationName:@"TagResource"
+                   outputClass:nil];
+}
+
+- (void)tagResource:(AWSLambdaTagResourceRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self tagResource:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)untagResource:(AWSLambdaUntagResourceRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodDELETE
+                     URLString:@"/2017-03-31/tags/{ARN}"
+                  targetPrefix:@""
+                 operationName:@"UntagResource"
+                   outputClass:nil];
+}
+
+- (void)untagResource:(AWSLambdaUntagResourceRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self untagResource:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(error);
@@ -900,11 +1119,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaAliasConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -927,11 +1141,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self updateEventSourceMapping:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaEventSourceMappingConfiguration *> * _Nonnull task) {
         AWSLambdaEventSourceMappingConfiguration *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -956,11 +1165,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSLambdaFunctionConfiguration *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -983,11 +1187,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self updateFunctionConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSLambdaFunctionConfiguration *> * _Nonnull task) {
         AWSLambdaFunctionConfiguration *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);

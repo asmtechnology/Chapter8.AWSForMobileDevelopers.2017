@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'C14498E8A4F7BC06FEBC95C50C9B88BD'
-               BlueprintName = 'AWSLambda'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'AWSLambda.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "23DD06598005D8CE19D7AD1279FC9730"
+               BuildableName = "AWSLambda.framework"
+               BlueprintName = "AWSLambda"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

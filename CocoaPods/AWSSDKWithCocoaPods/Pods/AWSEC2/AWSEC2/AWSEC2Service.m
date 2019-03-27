@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 #import "AWSEC2Serializer.h"
 
 static NSString *const AWSInfoEC2 = @"EC2";
-static NSString *const AWSEC2SDKVersion = @"2.4.16";
+NSString *const AWSEC2SDKVersion = @"2.9.3";
 
 
 @interface AWSEC2ResponseSerializer : AWSXMLResponseSerializer
@@ -89,7 +89,8 @@ static NSDictionary *errorCodeDictionary = nil;
                                                        error:error];
         }
     }
-	    return responseObject;
+	
+    return responseObject;
 }
 
 @end
@@ -160,7 +161,7 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
         if (!serviceConfiguration) {
             @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                           reason:@"The service configuration is `nil`. You need to configure `Info.plist` or set `defaultServiceConfiguration` before using this method."
+                                           reason:@"The service configuration is `nil`. You need to configure `awsconfiguration.json`, `Info.plist` or set `defaultServiceConfiguration` before using this method."
                                          userInfo:nil];
         }
         _defaultEC2 = [[AWSEC2 alloc] initWithConfiguration:serviceConfiguration];
@@ -271,6 +272,52 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 
 #pragma mark - Service method
 
+- (AWSTask<AWSEC2AcceptReservedInstancesExchangeQuoteResult *> *)acceptReservedInstancesExchangeQuote:(AWSEC2AcceptReservedInstancesExchangeQuoteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AcceptReservedInstancesExchangeQuote"
+                   outputClass:[AWSEC2AcceptReservedInstancesExchangeQuoteResult class]];
+}
+
+- (void)acceptReservedInstancesExchangeQuote:(AWSEC2AcceptReservedInstancesExchangeQuoteRequest *)request
+     completionHandler:(void (^)(AWSEC2AcceptReservedInstancesExchangeQuoteResult *response, NSError *error))completionHandler {
+    [[self acceptReservedInstancesExchangeQuote:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptReservedInstancesExchangeQuoteResult *> * _Nonnull task) {
+        AWSEC2AcceptReservedInstancesExchangeQuoteResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AcceptVpcEndpointConnectionsResult *> *)acceptVpcEndpointConnections:(AWSEC2AcceptVpcEndpointConnectionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AcceptVpcEndpointConnections"
+                   outputClass:[AWSEC2AcceptVpcEndpointConnectionsResult class]];
+}
+
+- (void)acceptVpcEndpointConnections:(AWSEC2AcceptVpcEndpointConnectionsRequest *)request
+     completionHandler:(void (^)(AWSEC2AcceptVpcEndpointConnectionsResult *response, NSError *error))completionHandler {
+    [[self acceptVpcEndpointConnections:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AcceptVpcEndpointConnectionsResult *> * _Nonnull task) {
+        AWSEC2AcceptVpcEndpointConnectionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
 - (AWSTask<AWSEC2AcceptVpcPeeringConnectionResult *> *)acceptVpcPeeringConnection:(AWSEC2AcceptVpcPeeringConnectionRequest *)request {
     return [self invokeRequest:request
                     HTTPMethod:AWSHTTPMethodPOST
@@ -286,10 +333,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AcceptVpcPeeringConnectionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AdvertiseByoipCidrResult *> *)advertiseByoipCidr:(AWSEC2AdvertiseByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AdvertiseByoipCidr"
+                   outputClass:[AWSEC2AdvertiseByoipCidrResult class]];
+}
+
+- (void)advertiseByoipCidr:(AWSEC2AdvertiseByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2AdvertiseByoipCidrResult *response, NSError *error))completionHandler {
+    [[self advertiseByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AdvertiseByoipCidrResult *> * _Nonnull task) {
+        AWSEC2AdvertiseByoipCidrResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -314,11 +379,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AllocateAddressResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -342,10 +402,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AllocateHostsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssignIpv6AddressesResult *> *)assignIpv6Addresses:(AWSEC2AssignIpv6AddressesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssignIpv6Addresses"
+                   outputClass:[AWSEC2AssignIpv6AddressesResult class]];
+}
+
+- (void)assignIpv6Addresses:(AWSEC2AssignIpv6AddressesRequest *)request
+     completionHandler:(void (^)(AWSEC2AssignIpv6AddressesResult *response, NSError *error))completionHandler {
+    [[self assignIpv6Addresses:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssignIpv6AddressesResult *> * _Nonnull task) {
+        AWSEC2AssignIpv6AddressesResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -368,11 +446,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self assignPrivateIpAddresses:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -397,11 +470,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AssociateAddressResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -424,13 +492,31 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self associateDhcpOptions:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateIamInstanceProfileResult *> *)associateIamInstanceProfile:(AWSEC2AssociateIamInstanceProfileRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateIamInstanceProfile"
+                   outputClass:[AWSEC2AssociateIamInstanceProfileResult class]];
+}
+
+- (void)associateIamInstanceProfile:(AWSEC2AssociateIamInstanceProfileRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateIamInstanceProfileResult *response, NSError *error))completionHandler {
+    [[self associateIamInstanceProfile:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateIamInstanceProfileResult *> * _Nonnull task) {
+        AWSEC2AssociateIamInstanceProfileResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -452,10 +538,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AssociateRouteTableResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateSubnetCidrBlockResult *> *)associateSubnetCidrBlock:(AWSEC2AssociateSubnetCidrBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateSubnetCidrBlock"
+                   outputClass:[AWSEC2AssociateSubnetCidrBlockResult class]];
+}
+
+- (void)associateSubnetCidrBlock:(AWSEC2AssociateSubnetCidrBlockRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateSubnetCidrBlockResult *response, NSError *error))completionHandler {
+    [[self associateSubnetCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateSubnetCidrBlockResult *> * _Nonnull task) {
+        AWSEC2AssociateSubnetCidrBlockResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2AssociateVpcCidrBlockResult *> *)associateVpcCidrBlock:(AWSEC2AssociateVpcCidrBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"AssociateVpcCidrBlock"
+                   outputClass:[AWSEC2AssociateVpcCidrBlockResult class]];
+}
+
+- (void)associateVpcCidrBlock:(AWSEC2AssociateVpcCidrBlockRequest *)request
+     completionHandler:(void (^)(AWSEC2AssociateVpcCidrBlockResult *response, NSError *error))completionHandler {
+    [[self associateVpcCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2AssociateVpcCidrBlockResult *> * _Nonnull task) {
+        AWSEC2AssociateVpcCidrBlockResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -480,11 +607,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AttachClassicLinkVpcResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -506,11 +628,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self attachInternetGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -535,11 +652,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AttachNetworkInterfaceResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -562,11 +674,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self attachVolume:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2VolumeAttachment *> * _Nonnull task) {
         AWSEC2VolumeAttachment *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -591,11 +698,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2AttachVpnGatewayResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -618,11 +720,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self authorizeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -644,11 +741,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self authorizeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -673,11 +765,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2BundleInstanceResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -701,10 +788,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CancelBundleTaskResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CancelCapacityReservationResult *> *)cancelCapacityReservation:(AWSEC2CancelCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CancelCapacityReservation"
+                   outputClass:[AWSEC2CancelCapacityReservationResult class]];
+}
+
+- (void)cancelCapacityReservation:(AWSEC2CancelCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2CancelCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self cancelCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CancelCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2CancelCapacityReservationResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -728,11 +833,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self cancelConversionTask:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -754,11 +854,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self cancelExportTask:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -783,11 +878,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CancelImportTaskResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -810,11 +900,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self cancelReservedInstancesListing:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CancelReservedInstancesListingResult *> * _Nonnull task) {
         AWSEC2CancelReservedInstancesListingResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -839,11 +924,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CancelSpotFleetRequestsResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -866,11 +946,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self cancelSpotInstanceRequests:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CancelSpotInstanceRequestsResult *> * _Nonnull task) {
         AWSEC2CancelSpotInstanceRequestsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -895,10 +970,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ConfirmProductInstanceResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ReplicateFpgaImageResult *> *)replicateFpgaImage:(AWSEC2ReplicateFpgaImageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CopyFpgaImage"
+                   outputClass:[AWSEC2ReplicateFpgaImageResult class]];
+}
+
+- (void)replicateFpgaImage:(AWSEC2ReplicateFpgaImageRequest *)request
+     completionHandler:(void (^)(AWSEC2ReplicateFpgaImageResult *response, NSError *error))completionHandler {
+    [[self replicateFpgaImage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ReplicateFpgaImageResult *> * _Nonnull task) {
+        AWSEC2ReplicateFpgaImageResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -923,11 +1016,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ReplicateImageResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -951,10 +1039,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ReplicateSnapshotResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateCapacityReservationResult *> *)createCapacityReservation:(AWSEC2CreateCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateCapacityReservation"
+                   outputClass:[AWSEC2CreateCapacityReservationResult class]];
+}
+
+- (void)createCapacityReservation:(AWSEC2CreateCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self createCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2CreateCapacityReservationResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -979,10 +1085,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateCustomerGatewayResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateDefaultSubnetResult *> *)createDefaultSubnet:(AWSEC2CreateDefaultSubnetRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateDefaultSubnet"
+                   outputClass:[AWSEC2CreateDefaultSubnetResult class]];
+}
+
+- (void)createDefaultSubnet:(AWSEC2CreateDefaultSubnetRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateDefaultSubnetResult *response, NSError *error))completionHandler {
+    [[self createDefaultSubnet:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateDefaultSubnetResult *> * _Nonnull task) {
+        AWSEC2CreateDefaultSubnetResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateDefaultVpcResult *> *)createDefaultVpc:(AWSEC2CreateDefaultVpcRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateDefaultVpc"
+                   outputClass:[AWSEC2CreateDefaultVpcResult class]];
+}
+
+- (void)createDefaultVpc:(AWSEC2CreateDefaultVpcRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateDefaultVpcResult *response, NSError *error))completionHandler {
+    [[self createDefaultVpc:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateDefaultVpcResult *> * _Nonnull task) {
+        AWSEC2CreateDefaultVpcResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1007,10 +1154,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateDhcpOptionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateEgressOnlyInternetGatewayResult *> *)createEgressOnlyInternetGateway:(AWSEC2CreateEgressOnlyInternetGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateEgressOnlyInternetGateway"
+                   outputClass:[AWSEC2CreateEgressOnlyInternetGatewayResult class]];
+}
+
+- (void)createEgressOnlyInternetGateway:(AWSEC2CreateEgressOnlyInternetGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateEgressOnlyInternetGatewayResult *response, NSError *error))completionHandler {
+    [[self createEgressOnlyInternetGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateEgressOnlyInternetGatewayResult *> * _Nonnull task) {
+        AWSEC2CreateEgressOnlyInternetGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateFleetResult *> *)createFleet:(AWSEC2CreateFleetRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateFleet"
+                   outputClass:[AWSEC2CreateFleetResult class]];
+}
+
+- (void)createFleet:(AWSEC2CreateFleetRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateFleetResult *response, NSError *error))completionHandler {
+    [[self createFleet:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateFleetResult *> * _Nonnull task) {
+        AWSEC2CreateFleetResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1035,10 +1223,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateFlowLogsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateFpgaImageResult *> *)createFpgaImage:(AWSEC2CreateFpgaImageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateFpgaImage"
+                   outputClass:[AWSEC2CreateFpgaImageResult class]];
+}
+
+- (void)createFpgaImage:(AWSEC2CreateFpgaImageRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateFpgaImageResult *response, NSError *error))completionHandler {
+    [[self createFpgaImage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateFpgaImageResult *> * _Nonnull task) {
+        AWSEC2CreateFpgaImageResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1063,11 +1269,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateImageResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1090,11 +1291,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createInstanceExportTask:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateInstanceExportTaskResult *> * _Nonnull task) {
         AWSEC2CreateInstanceExportTaskResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1119,11 +1315,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateInternetGatewayResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1147,10 +1338,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2KeyPair *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateLaunchTemplateResult *> *)createLaunchTemplate:(AWSEC2CreateLaunchTemplateRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateLaunchTemplate"
+                   outputClass:[AWSEC2CreateLaunchTemplateResult class]];
+}
+
+- (void)createLaunchTemplate:(AWSEC2CreateLaunchTemplateRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateLaunchTemplateResult *response, NSError *error))completionHandler {
+    [[self createLaunchTemplate:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateLaunchTemplateResult *> * _Nonnull task) {
+        AWSEC2CreateLaunchTemplateResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateLaunchTemplateVersionResult *> *)createLaunchTemplateVersion:(AWSEC2CreateLaunchTemplateVersionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateLaunchTemplateVersion"
+                   outputClass:[AWSEC2CreateLaunchTemplateVersionResult class]];
+}
+
+- (void)createLaunchTemplateVersion:(AWSEC2CreateLaunchTemplateVersionRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateLaunchTemplateVersionResult *response, NSError *error))completionHandler {
+    [[self createLaunchTemplateVersion:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateLaunchTemplateVersionResult *> * _Nonnull task) {
+        AWSEC2CreateLaunchTemplateVersionResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1175,11 +1407,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateNatGatewayResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1203,11 +1430,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateNetworkAclResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1229,11 +1451,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self createNetworkAclEntry:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1258,10 +1475,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateNetworkInterfaceResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateNetworkInterfacePermissionResult *> *)createNetworkInterfacePermission:(AWSEC2CreateNetworkInterfacePermissionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateNetworkInterfacePermission"
+                   outputClass:[AWSEC2CreateNetworkInterfacePermissionResult class]];
+}
+
+- (void)createNetworkInterfacePermission:(AWSEC2CreateNetworkInterfacePermissionRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateNetworkInterfacePermissionResult *response, NSError *error))completionHandler {
+    [[self createNetworkInterfacePermission:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateNetworkInterfacePermissionResult *> * _Nonnull task) {
+        AWSEC2CreateNetworkInterfacePermissionResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1284,11 +1519,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self createPlacementGroup:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1313,11 +1543,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateReservedInstancesListingResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1340,11 +1565,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createRoute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateRouteResult *> * _Nonnull task) {
         AWSEC2CreateRouteResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1369,11 +1589,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateRouteTableResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1396,11 +1611,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createSecurityGroup:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateSecurityGroupResult *> * _Nonnull task) {
         AWSEC2CreateSecurityGroupResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1425,11 +1635,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2Snapshot *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1452,11 +1657,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createSpotDatafeedSubscription:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateSpotDatafeedSubscriptionResult *> * _Nonnull task) {
         AWSEC2CreateSpotDatafeedSubscriptionResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1481,11 +1681,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateSubnetResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1507,11 +1702,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self createTags:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1536,11 +1726,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2Volume *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1563,11 +1748,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self createVpc:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateVpcResult *> * _Nonnull task) {
         AWSEC2CreateVpcResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1592,10 +1772,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateVpcEndpointResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateVpcEndpointConnectionNotificationResult *> *)createVpcEndpointConnectionNotification:(AWSEC2CreateVpcEndpointConnectionNotificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateVpcEndpointConnectionNotification"
+                   outputClass:[AWSEC2CreateVpcEndpointConnectionNotificationResult class]];
+}
+
+- (void)createVpcEndpointConnectionNotification:(AWSEC2CreateVpcEndpointConnectionNotificationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateVpcEndpointConnectionNotificationResult *response, NSError *error))completionHandler {
+    [[self createVpcEndpointConnectionNotification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateVpcEndpointConnectionNotificationResult *> * _Nonnull task) {
+        AWSEC2CreateVpcEndpointConnectionNotificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2CreateVpcEndpointServiceConfigurationResult *> *)createVpcEndpointServiceConfiguration:(AWSEC2CreateVpcEndpointServiceConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"CreateVpcEndpointServiceConfiguration"
+                   outputClass:[AWSEC2CreateVpcEndpointServiceConfigurationResult class]];
+}
+
+- (void)createVpcEndpointServiceConfiguration:(AWSEC2CreateVpcEndpointServiceConfigurationRequest *)request
+     completionHandler:(void (^)(AWSEC2CreateVpcEndpointServiceConfigurationResult *response, NSError *error))completionHandler {
+    [[self createVpcEndpointServiceConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2CreateVpcEndpointServiceConfigurationResult *> * _Nonnull task) {
+        AWSEC2CreateVpcEndpointServiceConfigurationResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1620,11 +1841,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateVpcPeeringConnectionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1648,11 +1864,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateVpnConnectionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1674,11 +1885,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self createVpnConnectionRoute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1703,11 +1909,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2CreateVpnGatewayResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -1729,11 +1930,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteCustomerGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1757,13 +1953,54 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteDhcpOptions:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteEgressOnlyInternetGatewayResult *> *)deleteEgressOnlyInternetGateway:(AWSEC2DeleteEgressOnlyInternetGatewayRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteEgressOnlyInternetGateway"
+                   outputClass:[AWSEC2DeleteEgressOnlyInternetGatewayResult class]];
+}
+
+- (void)deleteEgressOnlyInternetGateway:(AWSEC2DeleteEgressOnlyInternetGatewayRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteEgressOnlyInternetGatewayResult *response, NSError *error))completionHandler {
+    [[self deleteEgressOnlyInternetGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteEgressOnlyInternetGatewayResult *> * _Nonnull task) {
+        AWSEC2DeleteEgressOnlyInternetGatewayResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteFleetsResult *> *)deleteFleets:(AWSEC2DeleteFleetsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteFleets"
+                   outputClass:[AWSEC2DeleteFleetsResult class]];
+}
+
+- (void)deleteFleets:(AWSEC2DeleteFleetsRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteFleetsResult *response, NSError *error))completionHandler {
+    [[self deleteFleets:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteFleetsResult *> * _Nonnull task) {
+        AWSEC2DeleteFleetsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -1785,10 +2022,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DeleteFlowLogsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteFpgaImageResult *> *)deleteFpgaImage:(AWSEC2DeleteFpgaImageRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteFpgaImage"
+                   outputClass:[AWSEC2DeleteFpgaImageResult class]];
+}
+
+- (void)deleteFpgaImage:(AWSEC2DeleteFpgaImageRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteFpgaImageResult *response, NSError *error))completionHandler {
+    [[self deleteFpgaImage:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteFpgaImageResult *> * _Nonnull task) {
+        AWSEC2DeleteFpgaImageResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1812,11 +2067,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteInternetGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -1839,13 +2089,54 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteKeyPair:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteLaunchTemplateResult *> *)deleteLaunchTemplate:(AWSEC2DeleteLaunchTemplateRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteLaunchTemplate"
+                   outputClass:[AWSEC2DeleteLaunchTemplateResult class]];
+}
+
+- (void)deleteLaunchTemplate:(AWSEC2DeleteLaunchTemplateRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteLaunchTemplateResult *response, NSError *error))completionHandler {
+    [[self deleteLaunchTemplate:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteLaunchTemplateResult *> * _Nonnull task) {
+        AWSEC2DeleteLaunchTemplateResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteLaunchTemplateVersionsResult *> *)deleteLaunchTemplateVersions:(AWSEC2DeleteLaunchTemplateVersionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteLaunchTemplateVersions"
+                   outputClass:[AWSEC2DeleteLaunchTemplateVersionsResult class]];
+}
+
+- (void)deleteLaunchTemplateVersions:(AWSEC2DeleteLaunchTemplateVersionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteLaunchTemplateVersionsResult *response, NSError *error))completionHandler {
+    [[self deleteLaunchTemplateVersions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteLaunchTemplateVersionsResult *> * _Nonnull task) {
+        AWSEC2DeleteLaunchTemplateVersionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -1866,11 +2157,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteNatGateway:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteNatGatewayResult *> * _Nonnull task) {
         AWSEC2DeleteNatGatewayResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -1894,11 +2180,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteNetworkAcl:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -1920,11 +2201,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteNetworkAclEntry:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -1948,13 +2224,31 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteNetworkInterface:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteNetworkInterfacePermissionResult *> *)deleteNetworkInterfacePermission:(AWSEC2DeleteNetworkInterfacePermissionRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteNetworkInterfacePermission"
+                   outputClass:[AWSEC2DeleteNetworkInterfacePermissionResult class]];
+}
+
+- (void)deleteNetworkInterfacePermission:(AWSEC2DeleteNetworkInterfacePermissionRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteNetworkInterfacePermissionResult *response, NSError *error))completionHandler {
+    [[self deleteNetworkInterfacePermission:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteNetworkInterfacePermissionResult *> * _Nonnull task) {
+        AWSEC2DeleteNetworkInterfacePermissionResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -1974,11 +2268,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deletePlacementGroup:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2002,11 +2291,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteRoute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -2028,11 +2312,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteRouteTable:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2056,11 +2335,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteSecurityGroup:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -2082,11 +2356,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteSnapshot:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2110,11 +2379,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteSpotDatafeedSubscription:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -2136,11 +2400,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteSubnet:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2164,11 +2423,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteTags:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -2190,11 +2444,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteVolume:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2218,13 +2467,54 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteVpc:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteVpcEndpointConnectionNotificationsResult *> *)deleteVpcEndpointConnectionNotifications:(AWSEC2DeleteVpcEndpointConnectionNotificationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteVpcEndpointConnectionNotifications"
+                   outputClass:[AWSEC2DeleteVpcEndpointConnectionNotificationsResult class]];
+}
+
+- (void)deleteVpcEndpointConnectionNotifications:(AWSEC2DeleteVpcEndpointConnectionNotificationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteVpcEndpointConnectionNotificationsResult *response, NSError *error))completionHandler {
+    [[self deleteVpcEndpointConnectionNotifications:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteVpcEndpointConnectionNotificationsResult *> * _Nonnull task) {
+        AWSEC2DeleteVpcEndpointConnectionNotificationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeleteVpcEndpointServiceConfigurationsResult *> *)deleteVpcEndpointServiceConfigurations:(AWSEC2DeleteVpcEndpointServiceConfigurationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeleteVpcEndpointServiceConfigurations"
+                   outputClass:[AWSEC2DeleteVpcEndpointServiceConfigurationsResult class]];
+}
+
+- (void)deleteVpcEndpointServiceConfigurations:(AWSEC2DeleteVpcEndpointServiceConfigurationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DeleteVpcEndpointServiceConfigurationsResult *response, NSError *error))completionHandler {
+    [[self deleteVpcEndpointServiceConfigurations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteVpcEndpointServiceConfigurationsResult *> * _Nonnull task) {
+        AWSEC2DeleteVpcEndpointServiceConfigurationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -2245,11 +2535,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteVpcEndpoints:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeleteVpcEndpointsResult *> * _Nonnull task) {
         AWSEC2DeleteVpcEndpointsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2274,11 +2559,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DeleteVpcPeeringConnectionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2300,11 +2580,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deleteVpnConnection:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2328,11 +2603,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteVpnConnectionRoute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -2355,13 +2625,31 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self deleteVpnGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DeprovisionByoipCidrResult *> *)deprovisionByoipCidr:(AWSEC2DeprovisionByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DeprovisionByoipCidr"
+                   outputClass:[AWSEC2DeprovisionByoipCidrResult class]];
+}
+
+- (void)deprovisionByoipCidr:(AWSEC2DeprovisionByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2DeprovisionByoipCidrResult *response, NSError *error))completionHandler {
+    [[self deprovisionByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DeprovisionByoipCidrResult *> * _Nonnull task) {
+        AWSEC2DeprovisionByoipCidrResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -2381,11 +2669,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self deregisterImage:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -2410,11 +2693,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeAccountAttributesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2438,10 +2716,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeAddressesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeAggregateIdFormatResult *> *)describeAggregateIdFormat:(AWSEC2DescribeAggregateIdFormatRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeAggregateIdFormat"
+                   outputClass:[AWSEC2DescribeAggregateIdFormatResult class]];
+}
+
+- (void)describeAggregateIdFormat:(AWSEC2DescribeAggregateIdFormatRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeAggregateIdFormatResult *response, NSError *error))completionHandler {
+    [[self describeAggregateIdFormat:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeAggregateIdFormatResult *> * _Nonnull task) {
+        AWSEC2DescribeAggregateIdFormatResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2466,11 +2762,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeAvailabilityZonesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2494,10 +2785,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeBundleTasksResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeByoipCidrsResult *> *)describeByoipCidrs:(AWSEC2DescribeByoipCidrsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeByoipCidrs"
+                   outputClass:[AWSEC2DescribeByoipCidrsResult class]];
+}
+
+- (void)describeByoipCidrs:(AWSEC2DescribeByoipCidrsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeByoipCidrsResult *response, NSError *error))completionHandler {
+    [[self describeByoipCidrs:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeByoipCidrsResult *> * _Nonnull task) {
+        AWSEC2DescribeByoipCidrsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeCapacityReservationsResult *> *)describeCapacityReservations:(AWSEC2DescribeCapacityReservationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeCapacityReservations"
+                   outputClass:[AWSEC2DescribeCapacityReservationsResult class]];
+}
+
+- (void)describeCapacityReservations:(AWSEC2DescribeCapacityReservationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeCapacityReservationsResult *response, NSError *error))completionHandler {
+    [[self describeCapacityReservations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeCapacityReservationsResult *> * _Nonnull task) {
+        AWSEC2DescribeCapacityReservationsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2522,11 +2854,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeClassicLinkInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2549,11 +2876,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeConversionTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeConversionTasksResult *> * _Nonnull task) {
         AWSEC2DescribeConversionTasksResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2578,11 +2900,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeCustomerGatewaysResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2606,10 +2923,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeDhcpOptionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeEgressOnlyInternetGatewaysResult *> *)describeEgressOnlyInternetGateways:(AWSEC2DescribeEgressOnlyInternetGatewaysRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeEgressOnlyInternetGateways"
+                   outputClass:[AWSEC2DescribeEgressOnlyInternetGatewaysResult class]];
+}
+
+- (void)describeEgressOnlyInternetGateways:(AWSEC2DescribeEgressOnlyInternetGatewaysRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeEgressOnlyInternetGatewaysResult *response, NSError *error))completionHandler {
+    [[self describeEgressOnlyInternetGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeEgressOnlyInternetGatewaysResult *> * _Nonnull task) {
+        AWSEC2DescribeEgressOnlyInternetGatewaysResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeElasticGpusResult *> *)describeElasticGpus:(AWSEC2DescribeElasticGpusRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeElasticGpus"
+                   outputClass:[AWSEC2DescribeElasticGpusResult class]];
+}
+
+- (void)describeElasticGpus:(AWSEC2DescribeElasticGpusRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeElasticGpusResult *response, NSError *error))completionHandler {
+    [[self describeElasticGpus:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeElasticGpusResult *> * _Nonnull task) {
+        AWSEC2DescribeElasticGpusResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2634,10 +2992,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeExportTasksResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFleetHistoryResult *> *)describeFleetHistory:(AWSEC2DescribeFleetHistoryRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFleetHistory"
+                   outputClass:[AWSEC2DescribeFleetHistoryResult class]];
+}
+
+- (void)describeFleetHistory:(AWSEC2DescribeFleetHistoryRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFleetHistoryResult *response, NSError *error))completionHandler {
+    [[self describeFleetHistory:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFleetHistoryResult *> * _Nonnull task) {
+        AWSEC2DescribeFleetHistoryResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFleetInstancesResult *> *)describeFleetInstances:(AWSEC2DescribeFleetInstancesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFleetInstances"
+                   outputClass:[AWSEC2DescribeFleetInstancesResult class]];
+}
+
+- (void)describeFleetInstances:(AWSEC2DescribeFleetInstancesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFleetInstancesResult *response, NSError *error))completionHandler {
+    [[self describeFleetInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFleetInstancesResult *> * _Nonnull task) {
+        AWSEC2DescribeFleetInstancesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFleetsResult *> *)describeFleets:(AWSEC2DescribeFleetsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFleets"
+                   outputClass:[AWSEC2DescribeFleetsResult class]];
+}
+
+- (void)describeFleets:(AWSEC2DescribeFleetsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFleetsResult *response, NSError *error))completionHandler {
+    [[self describeFleets:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFleetsResult *> * _Nonnull task) {
+        AWSEC2DescribeFleetsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2662,10 +3084,97 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeFlowLogsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFpgaImageAttributeResult *> *)describeFpgaImageAttribute:(AWSEC2DescribeFpgaImageAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFpgaImageAttribute"
+                   outputClass:[AWSEC2DescribeFpgaImageAttributeResult class]];
+}
+
+- (void)describeFpgaImageAttribute:(AWSEC2DescribeFpgaImageAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFpgaImageAttributeResult *response, NSError *error))completionHandler {
+    [[self describeFpgaImageAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFpgaImageAttributeResult *> * _Nonnull task) {
+        AWSEC2DescribeFpgaImageAttributeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeFpgaImagesResult *> *)describeFpgaImages:(AWSEC2DescribeFpgaImagesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeFpgaImages"
+                   outputClass:[AWSEC2DescribeFpgaImagesResult class]];
+}
+
+- (void)describeFpgaImages:(AWSEC2DescribeFpgaImagesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeFpgaImagesResult *response, NSError *error))completionHandler {
+    [[self describeFpgaImages:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeFpgaImagesResult *> * _Nonnull task) {
+        AWSEC2DescribeFpgaImagesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeHostReservationOfferingsResult *> *)describeHostReservationOfferings:(AWSEC2DescribeHostReservationOfferingsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeHostReservationOfferings"
+                   outputClass:[AWSEC2DescribeHostReservationOfferingsResult class]];
+}
+
+- (void)describeHostReservationOfferings:(AWSEC2DescribeHostReservationOfferingsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeHostReservationOfferingsResult *response, NSError *error))completionHandler {
+    [[self describeHostReservationOfferings:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeHostReservationOfferingsResult *> * _Nonnull task) {
+        AWSEC2DescribeHostReservationOfferingsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeHostReservationsResult *> *)describeHostReservations:(AWSEC2DescribeHostReservationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeHostReservations"
+                   outputClass:[AWSEC2DescribeHostReservationsResult class]];
+}
+
+- (void)describeHostReservations:(AWSEC2DescribeHostReservationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeHostReservationsResult *response, NSError *error))completionHandler {
+    [[self describeHostReservations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeHostReservationsResult *> * _Nonnull task) {
+        AWSEC2DescribeHostReservationsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2690,10 +3199,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeHostsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeIamInstanceProfileAssociationsResult *> *)describeIamInstanceProfileAssociations:(AWSEC2DescribeIamInstanceProfileAssociationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeIamInstanceProfileAssociations"
+                   outputClass:[AWSEC2DescribeIamInstanceProfileAssociationsResult class]];
+}
+
+- (void)describeIamInstanceProfileAssociations:(AWSEC2DescribeIamInstanceProfileAssociationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeIamInstanceProfileAssociationsResult *response, NSError *error))completionHandler {
+    [[self describeIamInstanceProfileAssociations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeIamInstanceProfileAssociationsResult *> * _Nonnull task) {
+        AWSEC2DescribeIamInstanceProfileAssociationsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2718,10 +3245,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeIdFormatResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeIdentityIdFormatResult *> *)describeIdentityIdFormat:(AWSEC2DescribeIdentityIdFormatRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeIdentityIdFormat"
+                   outputClass:[AWSEC2DescribeIdentityIdFormatResult class]];
+}
+
+- (void)describeIdentityIdFormat:(AWSEC2DescribeIdentityIdFormatRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeIdentityIdFormatResult *response, NSError *error))completionHandler {
+    [[self describeIdentityIdFormat:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeIdentityIdFormatResult *> * _Nonnull task) {
+        AWSEC2DescribeIdentityIdFormatResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2746,11 +3291,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ImageAttribute *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2773,11 +3313,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeImages:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeImagesResult *> * _Nonnull task) {
         AWSEC2DescribeImagesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2802,11 +3337,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeImportImageTasksResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2829,11 +3359,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeImportSnapshotTasks:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeImportSnapshotTasksResult *> * _Nonnull task) {
         AWSEC2DescribeImportSnapshotTasksResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2858,10 +3383,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2InstanceAttribute *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeInstanceCreditSpecificationsResult *> *)describeInstanceCreditSpecifications:(AWSEC2DescribeInstanceCreditSpecificationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeInstanceCreditSpecifications"
+                   outputClass:[AWSEC2DescribeInstanceCreditSpecificationsResult class]];
+}
+
+- (void)describeInstanceCreditSpecifications:(AWSEC2DescribeInstanceCreditSpecificationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeInstanceCreditSpecificationsResult *response, NSError *error))completionHandler {
+    [[self describeInstanceCreditSpecifications:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstanceCreditSpecificationsResult *> * _Nonnull task) {
+        AWSEC2DescribeInstanceCreditSpecificationsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2886,11 +3429,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeInstanceStatusResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2913,11 +3451,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeInstancesResult *> * _Nonnull task) {
         AWSEC2DescribeInstancesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2942,11 +3475,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeInternetGatewaysResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -2970,10 +3498,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeKeyPairsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLaunchTemplateVersionsResult *> *)describeLaunchTemplateVersions:(AWSEC2DescribeLaunchTemplateVersionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLaunchTemplateVersions"
+                   outputClass:[AWSEC2DescribeLaunchTemplateVersionsResult class]];
+}
+
+- (void)describeLaunchTemplateVersions:(AWSEC2DescribeLaunchTemplateVersionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLaunchTemplateVersionsResult *response, NSError *error))completionHandler {
+    [[self describeLaunchTemplateVersions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLaunchTemplateVersionsResult *> * _Nonnull task) {
+        AWSEC2DescribeLaunchTemplateVersionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeLaunchTemplatesResult *> *)describeLaunchTemplates:(AWSEC2DescribeLaunchTemplatesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeLaunchTemplates"
+                   outputClass:[AWSEC2DescribeLaunchTemplatesResult class]];
+}
+
+- (void)describeLaunchTemplates:(AWSEC2DescribeLaunchTemplatesRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeLaunchTemplatesResult *response, NSError *error))completionHandler {
+    [[self describeLaunchTemplates:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeLaunchTemplatesResult *> * _Nonnull task) {
+        AWSEC2DescribeLaunchTemplatesResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -2998,11 +3567,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeMovingAddressesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3025,11 +3589,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeNatGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeNatGatewaysResult *> * _Nonnull task) {
         AWSEC2DescribeNatGatewaysResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3054,11 +3613,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeNetworkAclsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3082,10 +3636,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeNetworkInterfaceAttributeResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeNetworkInterfacePermissionsResult *> *)describeNetworkInterfacePermissions:(AWSEC2DescribeNetworkInterfacePermissionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeNetworkInterfacePermissions"
+                   outputClass:[AWSEC2DescribeNetworkInterfacePermissionsResult class]];
+}
+
+- (void)describeNetworkInterfacePermissions:(AWSEC2DescribeNetworkInterfacePermissionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeNetworkInterfacePermissionsResult *response, NSError *error))completionHandler {
+    [[self describeNetworkInterfacePermissions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeNetworkInterfacePermissionsResult *> * _Nonnull task) {
+        AWSEC2DescribeNetworkInterfacePermissionsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3110,11 +3682,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeNetworkInterfacesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3137,11 +3704,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describePlacementGroups:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribePlacementGroupsResult *> * _Nonnull task) {
         AWSEC2DescribePlacementGroupsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3166,10 +3728,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribePrefixListsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribePrincipalIdFormatResult *> *)describePrincipalIdFormat:(AWSEC2DescribePrincipalIdFormatRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribePrincipalIdFormat"
+                   outputClass:[AWSEC2DescribePrincipalIdFormatResult class]];
+}
+
+- (void)describePrincipalIdFormat:(AWSEC2DescribePrincipalIdFormatRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribePrincipalIdFormatResult *response, NSError *error))completionHandler {
+    [[self describePrincipalIdFormat:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribePrincipalIdFormatResult *> * _Nonnull task) {
+        AWSEC2DescribePrincipalIdFormatResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribePublicIpv4PoolsResult *> *)describePublicIpv4Pools:(AWSEC2DescribePublicIpv4PoolsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribePublicIpv4Pools"
+                   outputClass:[AWSEC2DescribePublicIpv4PoolsResult class]];
+}
+
+- (void)describePublicIpv4Pools:(AWSEC2DescribePublicIpv4PoolsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribePublicIpv4PoolsResult *response, NSError *error))completionHandler {
+    [[self describePublicIpv4Pools:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribePublicIpv4PoolsResult *> * _Nonnull task) {
+        AWSEC2DescribePublicIpv4PoolsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3194,11 +3797,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeRegionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3221,11 +3819,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeReservedInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeReservedInstancesResult *> * _Nonnull task) {
         AWSEC2DescribeReservedInstancesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3250,11 +3843,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeReservedInstancesListingsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3277,11 +3865,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeReservedInstancesModifications:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeReservedInstancesModificationsResult *> * _Nonnull task) {
         AWSEC2DescribeReservedInstancesModificationsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3306,11 +3889,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeReservedInstancesOfferingsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3333,11 +3911,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeRouteTables:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeRouteTablesResult *> * _Nonnull task) {
         AWSEC2DescribeRouteTablesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3362,11 +3935,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeScheduledInstanceAvailabilityResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3389,11 +3957,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeScheduledInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeScheduledInstancesResult *> * _Nonnull task) {
         AWSEC2DescribeScheduledInstancesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3418,11 +3981,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeSecurityGroupReferencesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3445,11 +4003,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSecurityGroups:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSecurityGroupsResult *> * _Nonnull task) {
         AWSEC2DescribeSecurityGroupsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3474,11 +4027,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeSnapshotAttributeResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3501,11 +4049,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSnapshots:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSnapshotsResult *> * _Nonnull task) {
         AWSEC2DescribeSnapshotsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3530,11 +4073,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeSpotDatafeedSubscriptionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3557,11 +4095,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSpotFleetInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSpotFleetInstancesResponse *> * _Nonnull task) {
         AWSEC2DescribeSpotFleetInstancesResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3586,11 +4119,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeSpotFleetRequestHistoryResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3613,11 +4141,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSpotFleetRequests:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSpotFleetRequestsResponse *> * _Nonnull task) {
         AWSEC2DescribeSpotFleetRequestsResponse *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3642,11 +4165,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeSpotInstanceRequestsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3669,11 +4187,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSpotPriceHistory:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSpotPriceHistoryResult *> * _Nonnull task) {
         AWSEC2DescribeSpotPriceHistoryResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3698,11 +4211,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeStaleSecurityGroupsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3725,11 +4233,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeSubnets:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeSubnetsResult *> * _Nonnull task) {
         AWSEC2DescribeSubnetsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3754,11 +4257,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeTagsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3781,11 +4279,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeVolumeAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVolumeAttributeResult *> * _Nonnull task) {
         AWSEC2DescribeVolumeAttributeResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3810,11 +4303,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVolumeStatusResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3838,10 +4326,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVolumesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeVolumesModificationsResult *> *)describeVolumesModifications:(AWSEC2DescribeVolumesModificationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeVolumesModifications"
+                   outputClass:[AWSEC2DescribeVolumesModificationsResult class]];
+}
+
+- (void)describeVolumesModifications:(AWSEC2DescribeVolumesModificationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeVolumesModificationsResult *response, NSError *error))completionHandler {
+    [[self describeVolumesModifications:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVolumesModificationsResult *> * _Nonnull task) {
+        AWSEC2DescribeVolumesModificationsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3866,11 +4372,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVpcAttributeResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3893,11 +4394,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeVpcClassicLink:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcClassicLinkResult *> * _Nonnull task) {
         AWSEC2DescribeVpcClassicLinkResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3922,10 +4418,97 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVpcClassicLinkDnsSupportResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeVpcEndpointConnectionNotificationsResult *> *)describeVpcEndpointConnectionNotifications:(AWSEC2DescribeVpcEndpointConnectionNotificationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeVpcEndpointConnectionNotifications"
+                   outputClass:[AWSEC2DescribeVpcEndpointConnectionNotificationsResult class]];
+}
+
+- (void)describeVpcEndpointConnectionNotifications:(AWSEC2DescribeVpcEndpointConnectionNotificationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeVpcEndpointConnectionNotificationsResult *response, NSError *error))completionHandler {
+    [[self describeVpcEndpointConnectionNotifications:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcEndpointConnectionNotificationsResult *> * _Nonnull task) {
+        AWSEC2DescribeVpcEndpointConnectionNotificationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeVpcEndpointConnectionsResult *> *)describeVpcEndpointConnections:(AWSEC2DescribeVpcEndpointConnectionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeVpcEndpointConnections"
+                   outputClass:[AWSEC2DescribeVpcEndpointConnectionsResult class]];
+}
+
+- (void)describeVpcEndpointConnections:(AWSEC2DescribeVpcEndpointConnectionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeVpcEndpointConnectionsResult *response, NSError *error))completionHandler {
+    [[self describeVpcEndpointConnections:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcEndpointConnectionsResult *> * _Nonnull task) {
+        AWSEC2DescribeVpcEndpointConnectionsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeVpcEndpointServiceConfigurationsResult *> *)describeVpcEndpointServiceConfigurations:(AWSEC2DescribeVpcEndpointServiceConfigurationsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeVpcEndpointServiceConfigurations"
+                   outputClass:[AWSEC2DescribeVpcEndpointServiceConfigurationsResult class]];
+}
+
+- (void)describeVpcEndpointServiceConfigurations:(AWSEC2DescribeVpcEndpointServiceConfigurationsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeVpcEndpointServiceConfigurationsResult *response, NSError *error))completionHandler {
+    [[self describeVpcEndpointServiceConfigurations:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcEndpointServiceConfigurationsResult *> * _Nonnull task) {
+        AWSEC2DescribeVpcEndpointServiceConfigurationsResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DescribeVpcEndpointServicePermissionsResult *> *)describeVpcEndpointServicePermissions:(AWSEC2DescribeVpcEndpointServicePermissionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DescribeVpcEndpointServicePermissions"
+                   outputClass:[AWSEC2DescribeVpcEndpointServicePermissionsResult class]];
+}
+
+- (void)describeVpcEndpointServicePermissions:(AWSEC2DescribeVpcEndpointServicePermissionsRequest *)request
+     completionHandler:(void (^)(AWSEC2DescribeVpcEndpointServicePermissionsResult *response, NSError *error))completionHandler {
+    [[self describeVpcEndpointServicePermissions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcEndpointServicePermissionsResult *> * _Nonnull task) {
+        AWSEC2DescribeVpcEndpointServicePermissionsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -3950,11 +4533,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVpcEndpointServicesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -3977,11 +4555,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeVpcEndpoints:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcEndpointsResult *> * _Nonnull task) {
         AWSEC2DescribeVpcEndpointsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4006,11 +4579,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVpcPeeringConnectionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4033,11 +4601,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeVpcs:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpcsResult *> * _Nonnull task) {
         AWSEC2DescribeVpcsResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4062,11 +4625,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DescribeVpnConnectionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4089,11 +4647,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self describeVpnGateways:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DescribeVpnGatewaysResult *> * _Nonnull task) {
         AWSEC2DescribeVpnGatewaysResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4118,11 +4671,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DetachClassicLinkVpcResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4145,11 +4693,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self detachInternetGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -4171,11 +4714,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self detachNetworkInterface:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4200,11 +4738,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2VolumeAttachment *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4227,11 +4760,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self detachVpnGateway:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -4253,11 +4781,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self disableVgwRoutePropagation:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4282,11 +4805,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DisableVpcClassicLinkResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4310,11 +4828,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2DisableVpcClassicLinkDnsSupportResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4337,13 +4850,31 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self disassociateAddress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateIamInstanceProfileResult *> *)disassociateIamInstanceProfile:(AWSEC2DisassociateIamInstanceProfileRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateIamInstanceProfile"
+                   outputClass:[AWSEC2DisassociateIamInstanceProfileResult class]];
+}
+
+- (void)disassociateIamInstanceProfile:(AWSEC2DisassociateIamInstanceProfileRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateIamInstanceProfileResult *response, NSError *error))completionHandler {
+    [[self disassociateIamInstanceProfile:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateIamInstanceProfileResult *> * _Nonnull task) {
+        AWSEC2DisassociateIamInstanceProfileResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -4364,13 +4895,54 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self disassociateRouteTable:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateSubnetCidrBlockResult *> *)disassociateSubnetCidrBlock:(AWSEC2DisassociateSubnetCidrBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateSubnetCidrBlock"
+                   outputClass:[AWSEC2DisassociateSubnetCidrBlockResult class]];
+}
+
+- (void)disassociateSubnetCidrBlock:(AWSEC2DisassociateSubnetCidrBlockRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateSubnetCidrBlockResult *response, NSError *error))completionHandler {
+    [[self disassociateSubnetCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateSubnetCidrBlockResult *> * _Nonnull task) {
+        AWSEC2DisassociateSubnetCidrBlockResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2DisassociateVpcCidrBlockResult *> *)disassociateVpcCidrBlock:(AWSEC2DisassociateVpcCidrBlockRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"DisassociateVpcCidrBlock"
+                   outputClass:[AWSEC2DisassociateVpcCidrBlockResult class]];
+}
+
+- (void)disassociateVpcCidrBlock:(AWSEC2DisassociateVpcCidrBlockRequest *)request
+     completionHandler:(void (^)(AWSEC2DisassociateVpcCidrBlockResult *response, NSError *error))completionHandler {
+    [[self disassociateVpcCidrBlock:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2DisassociateVpcCidrBlockResult *> * _Nonnull task) {
+        AWSEC2DisassociateVpcCidrBlockResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -4390,11 +4962,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self enableVgwRoutePropagation:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4417,11 +4984,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self enableVolumeIO:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4446,11 +5008,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2EnableVpcClassicLinkResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4473,11 +5030,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self enableVpcClassicLinkDnsSupport:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2EnableVpcClassicLinkDnsSupportResult *> * _Nonnull task) {
         AWSEC2EnableVpcClassicLinkDnsSupportResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4502,10 +5054,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2GetConsoleOutputResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetConsoleScreenshotResult *> *)getConsoleScreenshot:(AWSEC2GetConsoleScreenshotRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetConsoleScreenshot"
+                   outputClass:[AWSEC2GetConsoleScreenshotResult class]];
+}
+
+- (void)getConsoleScreenshot:(AWSEC2GetConsoleScreenshotRequest *)request
+     completionHandler:(void (^)(AWSEC2GetConsoleScreenshotResult *response, NSError *error))completionHandler {
+    [[self getConsoleScreenshot:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetConsoleScreenshotResult *> * _Nonnull task) {
+        AWSEC2GetConsoleScreenshotResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetHostReservationPurchasePreviewResult *> *)getHostReservationPurchasePreview:(AWSEC2GetHostReservationPurchasePreviewRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetHostReservationPurchasePreview"
+                   outputClass:[AWSEC2GetHostReservationPurchasePreviewResult class]];
+}
+
+- (void)getHostReservationPurchasePreview:(AWSEC2GetHostReservationPurchasePreviewRequest *)request
+     completionHandler:(void (^)(AWSEC2GetHostReservationPurchasePreviewResult *response, NSError *error))completionHandler {
+    [[self getHostReservationPurchasePreview:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetHostReservationPurchasePreviewResult *> * _Nonnull task) {
+        AWSEC2GetHostReservationPurchasePreviewResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetLaunchTemplateDataResult *> *)getLaunchTemplateData:(AWSEC2GetLaunchTemplateDataRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetLaunchTemplateData"
+                   outputClass:[AWSEC2GetLaunchTemplateDataResult class]];
+}
+
+- (void)getLaunchTemplateData:(AWSEC2GetLaunchTemplateDataRequest *)request
+     completionHandler:(void (^)(AWSEC2GetLaunchTemplateDataResult *response, NSError *error))completionHandler {
+    [[self getLaunchTemplateData:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetLaunchTemplateDataResult *> * _Nonnull task) {
+        AWSEC2GetLaunchTemplateDataResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4530,10 +5146,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2GetPasswordDataResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2GetReservedInstancesExchangeQuoteResult *> *)getReservedInstancesExchangeQuote:(AWSEC2GetReservedInstancesExchangeQuoteRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"GetReservedInstancesExchangeQuote"
+                   outputClass:[AWSEC2GetReservedInstancesExchangeQuoteResult class]];
+}
+
+- (void)getReservedInstancesExchangeQuote:(AWSEC2GetReservedInstancesExchangeQuoteRequest *)request
+     completionHandler:(void (^)(AWSEC2GetReservedInstancesExchangeQuoteResult *response, NSError *error))completionHandler {
+    [[self getReservedInstancesExchangeQuote:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2GetReservedInstancesExchangeQuoteResult *> * _Nonnull task) {
+        AWSEC2GetReservedInstancesExchangeQuoteResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4558,11 +5192,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ImportImageResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4585,11 +5214,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self importInstance:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ImportInstanceResult *> * _Nonnull task) {
         AWSEC2ImportInstanceResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4614,11 +5238,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ImportKeyPairResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4641,11 +5260,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self importSnapshot:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ImportSnapshotResult *> * _Nonnull task) {
         AWSEC2ImportSnapshotResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4670,10 +5284,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ImportVolumeResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyCapacityReservationResult *> *)modifyCapacityReservation:(AWSEC2ModifyCapacityReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyCapacityReservation"
+                   outputClass:[AWSEC2ModifyCapacityReservationResult class]];
+}
+
+- (void)modifyCapacityReservation:(AWSEC2ModifyCapacityReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyCapacityReservationResult *response, NSError *error))completionHandler {
+    [[self modifyCapacityReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyCapacityReservationResult *> * _Nonnull task) {
+        AWSEC2ModifyCapacityReservationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyFleetResult *> *)modifyFleet:(AWSEC2ModifyFleetRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyFleet"
+                   outputClass:[AWSEC2ModifyFleetResult class]];
+}
+
+- (void)modifyFleet:(AWSEC2ModifyFleetRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyFleetResult *response, NSError *error))completionHandler {
+    [[self modifyFleet:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyFleetResult *> * _Nonnull task) {
+        AWSEC2ModifyFleetResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyFpgaImageAttributeResult *> *)modifyFpgaImageAttribute:(AWSEC2ModifyFpgaImageAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyFpgaImageAttribute"
+                   outputClass:[AWSEC2ModifyFpgaImageAttributeResult class]];
+}
+
+- (void)modifyFpgaImageAttribute:(AWSEC2ModifyFpgaImageAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyFpgaImageAttributeResult *response, NSError *error))completionHandler {
+    [[self modifyFpgaImageAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyFpgaImageAttributeResult *> * _Nonnull task) {
+        AWSEC2ModifyFpgaImageAttributeResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4698,11 +5376,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifyHostsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4725,10 +5398,27 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self modifyIdFormat:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask *)modifyIdentityIdFormat:(AWSEC2ModifyIdentityIdFormatRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyIdentityIdFormat"
+                   outputClass:nil];
+}
+
+- (void)modifyIdentityIdFormat:(AWSEC2ModifyIdentityIdFormatRequest *)request
+     completionHandler:(void (^)(NSError *error))completionHandler {
+    [[self modifyIdentityIdFormat:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(error);
@@ -4752,11 +5442,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self modifyImageAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -4779,13 +5464,54 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self modifyInstanceAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyInstanceCapacityReservationAttributesResult *> *)modifyInstanceCapacityReservationAttributes:(AWSEC2ModifyInstanceCapacityReservationAttributesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceCapacityReservationAttributes"
+                   outputClass:[AWSEC2ModifyInstanceCapacityReservationAttributesResult class]];
+}
+
+- (void)modifyInstanceCapacityReservationAttributes:(AWSEC2ModifyInstanceCapacityReservationAttributesRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceCapacityReservationAttributesResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceCapacityReservationAttributes:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceCapacityReservationAttributesResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceCapacityReservationAttributesResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyInstanceCreditSpecificationResult *> *)modifyInstanceCreditSpecification:(AWSEC2ModifyInstanceCreditSpecificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyInstanceCreditSpecification"
+                   outputClass:[AWSEC2ModifyInstanceCreditSpecificationResult class]];
+}
+
+- (void)modifyInstanceCreditSpecification:(AWSEC2ModifyInstanceCreditSpecificationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyInstanceCreditSpecificationResult *response, NSError *error))completionHandler {
+    [[self modifyInstanceCreditSpecification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyInstanceCreditSpecificationResult *> * _Nonnull task) {
+        AWSEC2ModifyInstanceCreditSpecificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -4807,10 +5533,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifyInstancePlacementResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyLaunchTemplateResult *> *)modifyLaunchTemplate:(AWSEC2ModifyLaunchTemplateRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyLaunchTemplate"
+                   outputClass:[AWSEC2ModifyLaunchTemplateResult class]];
+}
+
+- (void)modifyLaunchTemplate:(AWSEC2ModifyLaunchTemplateRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyLaunchTemplateResult *response, NSError *error))completionHandler {
+    [[self modifyLaunchTemplate:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyLaunchTemplateResult *> * _Nonnull task) {
+        AWSEC2ModifyLaunchTemplateResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -4833,11 +5577,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self modifyNetworkInterfaceAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4862,11 +5601,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifyReservedInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4888,11 +5622,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self modifySnapshotAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4917,11 +5646,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifySpotFleetRequestResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -4944,13 +5668,31 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self modifySubnetAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVolumeResult *> *)modifyVolume:(AWSEC2ModifyVolumeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVolume"
+                   outputClass:[AWSEC2ModifyVolumeResult class]];
+}
+
+- (void)modifyVolume:(AWSEC2ModifyVolumeRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVolumeResult *response, NSError *error))completionHandler {
+    [[self modifyVolume:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVolumeResult *> * _Nonnull task) {
+        AWSEC2ModifyVolumeResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
         }
 
         return nil;
@@ -4970,11 +5712,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self modifyVolumeAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -4997,11 +5734,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self modifyVpcAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5026,10 +5758,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifyVpcEndpointResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpcEndpointConnectionNotificationResult *> *)modifyVpcEndpointConnectionNotification:(AWSEC2ModifyVpcEndpointConnectionNotificationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpcEndpointConnectionNotification"
+                   outputClass:[AWSEC2ModifyVpcEndpointConnectionNotificationResult class]];
+}
+
+- (void)modifyVpcEndpointConnectionNotification:(AWSEC2ModifyVpcEndpointConnectionNotificationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpcEndpointConnectionNotificationResult *response, NSError *error))completionHandler {
+    [[self modifyVpcEndpointConnectionNotification:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpcEndpointConnectionNotificationResult *> * _Nonnull task) {
+        AWSEC2ModifyVpcEndpointConnectionNotificationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpcEndpointServiceConfigurationResult *> *)modifyVpcEndpointServiceConfiguration:(AWSEC2ModifyVpcEndpointServiceConfigurationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpcEndpointServiceConfiguration"
+                   outputClass:[AWSEC2ModifyVpcEndpointServiceConfigurationResult class]];
+}
+
+- (void)modifyVpcEndpointServiceConfiguration:(AWSEC2ModifyVpcEndpointServiceConfigurationRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpcEndpointServiceConfigurationResult *response, NSError *error))completionHandler {
+    [[self modifyVpcEndpointServiceConfiguration:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpcEndpointServiceConfigurationResult *> * _Nonnull task) {
+        AWSEC2ModifyVpcEndpointServiceConfigurationResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpcEndpointServicePermissionsResult *> *)modifyVpcEndpointServicePermissions:(AWSEC2ModifyVpcEndpointServicePermissionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpcEndpointServicePermissions"
+                   outputClass:[AWSEC2ModifyVpcEndpointServicePermissionsResult class]];
+}
+
+- (void)modifyVpcEndpointServicePermissions:(AWSEC2ModifyVpcEndpointServicePermissionsRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpcEndpointServicePermissionsResult *response, NSError *error))completionHandler {
+    [[self modifyVpcEndpointServicePermissions:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpcEndpointServicePermissionsResult *> * _Nonnull task) {
+        AWSEC2ModifyVpcEndpointServicePermissionsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5054,10 +5850,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ModifyVpcPeeringConnectionOptionsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ModifyVpcTenancyResult *> *)modifyVpcTenancy:(AWSEC2ModifyVpcTenancyRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ModifyVpcTenancy"
+                   outputClass:[AWSEC2ModifyVpcTenancyResult class]];
+}
+
+- (void)modifyVpcTenancy:(AWSEC2ModifyVpcTenancyRequest *)request
+     completionHandler:(void (^)(AWSEC2ModifyVpcTenancyResult *response, NSError *error))completionHandler {
+    [[self modifyVpcTenancy:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ModifyVpcTenancyResult *> * _Nonnull task) {
+        AWSEC2ModifyVpcTenancyResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5082,11 +5896,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2MonitorInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5110,10 +5919,51 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2MoveAddressToVpcResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ProvisionByoipCidrResult *> *)provisionByoipCidr:(AWSEC2ProvisionByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ProvisionByoipCidr"
+                   outputClass:[AWSEC2ProvisionByoipCidrResult class]];
+}
+
+- (void)provisionByoipCidr:(AWSEC2ProvisionByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2ProvisionByoipCidrResult *response, NSError *error))completionHandler {
+    [[self provisionByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ProvisionByoipCidrResult *> * _Nonnull task) {
+        AWSEC2ProvisionByoipCidrResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2PurchaseHostReservationResult *> *)purchaseHostReservation:(AWSEC2PurchaseHostReservationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"PurchaseHostReservation"
+                   outputClass:[AWSEC2PurchaseHostReservationResult class]];
+}
+
+- (void)purchaseHostReservation:(AWSEC2PurchaseHostReservationRequest *)request
+     completionHandler:(void (^)(AWSEC2PurchaseHostReservationResult *response, NSError *error))completionHandler {
+    [[self purchaseHostReservation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2PurchaseHostReservationResult *> * _Nonnull task) {
+        AWSEC2PurchaseHostReservationResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5138,11 +5988,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2PurchaseReservedInstancesOfferingResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5166,11 +6011,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2PurchaseScheduledInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5192,11 +6032,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self rebootInstances:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5221,10 +6056,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2RegisterImageResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2RejectVpcEndpointConnectionsResult *> *)rejectVpcEndpointConnections:(AWSEC2RejectVpcEndpointConnectionsRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"RejectVpcEndpointConnections"
+                   outputClass:[AWSEC2RejectVpcEndpointConnectionsResult class]];
+}
+
+- (void)rejectVpcEndpointConnections:(AWSEC2RejectVpcEndpointConnectionsRequest *)request
+     completionHandler:(void (^)(AWSEC2RejectVpcEndpointConnectionsResult *response, NSError *error))completionHandler {
+    [[self rejectVpcEndpointConnections:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RejectVpcEndpointConnectionsResult *> * _Nonnull task) {
+        AWSEC2RejectVpcEndpointConnectionsResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5249,11 +6102,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2RejectVpcPeeringConnectionResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5275,11 +6123,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self releaseAddress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5304,10 +6147,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ReleaseHostsResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ReplaceIamInstanceProfileAssociationResult *> *)replaceIamInstanceProfileAssociation:(AWSEC2ReplaceIamInstanceProfileAssociationRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ReplaceIamInstanceProfileAssociation"
+                   outputClass:[AWSEC2ReplaceIamInstanceProfileAssociationResult class]];
+}
+
+- (void)replaceIamInstanceProfileAssociation:(AWSEC2ReplaceIamInstanceProfileAssociationRequest *)request
+     completionHandler:(void (^)(AWSEC2ReplaceIamInstanceProfileAssociationResult *response, NSError *error))completionHandler {
+    [[self replaceIamInstanceProfileAssociation:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ReplaceIamInstanceProfileAssociationResult *> * _Nonnull task) {
+        AWSEC2ReplaceIamInstanceProfileAssociationResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5332,11 +6193,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ReplaceNetworkAclAssociationResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5359,11 +6215,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self replaceNetworkAclEntry:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -5385,11 +6236,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self replaceRoute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5414,11 +6260,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2ReplaceRouteTableAssociationResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5440,11 +6281,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self reportInstanceStatus:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5469,11 +6305,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2RequestSpotFleetResponse *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5497,10 +6328,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2RequestSpotInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2ResetFpgaImageAttributeResult *> *)resetFpgaImageAttribute:(AWSEC2ResetFpgaImageAttributeRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"ResetFpgaImageAttribute"
+                   outputClass:[AWSEC2ResetFpgaImageAttributeResult class]];
+}
+
+- (void)resetFpgaImageAttribute:(AWSEC2ResetFpgaImageAttributeRequest *)request
+     completionHandler:(void (^)(AWSEC2ResetFpgaImageAttributeResult *response, NSError *error))completionHandler {
+    [[self resetFpgaImageAttribute:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2ResetFpgaImageAttributeResult *> * _Nonnull task) {
+        AWSEC2ResetFpgaImageAttributeResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5524,11 +6373,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self resetImageAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -5550,11 +6394,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self resetInstanceAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5578,11 +6417,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self resetNetworkInterfaceAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -5604,11 +6438,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self resetSnapshotAttribute:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5633,11 +6462,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2RestoreAddressToClassicResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5660,11 +6484,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self revokeSecurityGroupEgress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(error);
         }
@@ -5686,11 +6505,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self revokeSecurityGroupIngress:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5715,11 +6529,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2Reservation *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5742,11 +6551,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self runScheduledInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2RunScheduledInstancesResult *> * _Nonnull task) {
         AWSEC2RunScheduledInstancesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5771,11 +6575,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2StartInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
-
         if (completionHandler) {
             completionHandler(result, error);
         }
@@ -5798,11 +6597,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
     [[self stopInstances:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2StopInstancesResult *> * _Nonnull task) {
         AWSEC2StopInstancesResult *result = task.result;
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5827,10 +6621,28 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2TerminateInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2UnassignIpv6AddressesResult *> *)unassignIpv6Addresses:(AWSEC2UnassignIpv6AddressesRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"UnassignIpv6Addresses"
+                   outputClass:[AWSEC2UnassignIpv6AddressesResult class]];
+}
+
+- (void)unassignIpv6Addresses:(AWSEC2UnassignIpv6AddressesRequest *)request
+     completionHandler:(void (^)(AWSEC2UnassignIpv6AddressesResult *response, NSError *error))completionHandler {
+    [[self unassignIpv6Addresses:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2UnassignIpv6AddressesResult *> * _Nonnull task) {
+        AWSEC2UnassignIpv6AddressesResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);
@@ -5853,11 +6665,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
      completionHandler:(void (^)(NSError *error))completionHandler {
     [[self unassignPrivateIpAddresses:request] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
         NSError *error = task.error;
-
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
 
         if (completionHandler) {
             completionHandler(error);
@@ -5882,10 +6689,74 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
         AWSEC2UnmonitorInstancesResult *result = task.result;
         NSError *error = task.error;
 
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
+        if (completionHandler) {
+            completionHandler(result, error);
         }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2UpdateSecurityGroupRuleDescriptionsEgressResult *> *)updateSecurityGroupRuleDescriptionsEgress:(AWSEC2UpdateSecurityGroupRuleDescriptionsEgressRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"UpdateSecurityGroupRuleDescriptionsEgress"
+                   outputClass:[AWSEC2UpdateSecurityGroupRuleDescriptionsEgressResult class]];
+}
+
+- (void)updateSecurityGroupRuleDescriptionsEgress:(AWSEC2UpdateSecurityGroupRuleDescriptionsEgressRequest *)request
+     completionHandler:(void (^)(AWSEC2UpdateSecurityGroupRuleDescriptionsEgressResult *response, NSError *error))completionHandler {
+    [[self updateSecurityGroupRuleDescriptionsEgress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2UpdateSecurityGroupRuleDescriptionsEgressResult *> * _Nonnull task) {
+        AWSEC2UpdateSecurityGroupRuleDescriptionsEgressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *> *)updateSecurityGroupRuleDescriptionsIngress:(AWSEC2UpdateSecurityGroupRuleDescriptionsIngressRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"UpdateSecurityGroupRuleDescriptionsIngress"
+                   outputClass:[AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult class]];
+}
+
+- (void)updateSecurityGroupRuleDescriptionsIngress:(AWSEC2UpdateSecurityGroupRuleDescriptionsIngressRequest *)request
+     completionHandler:(void (^)(AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *response, NSError *error))completionHandler {
+    [[self updateSecurityGroupRuleDescriptionsIngress:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *> * _Nonnull task) {
+        AWSEC2UpdateSecurityGroupRuleDescriptionsIngressResult *result = task.result;
+        NSError *error = task.error;
+
+        if (completionHandler) {
+            completionHandler(result, error);
+        }
+
+        return nil;
+    }];
+}
+
+- (AWSTask<AWSEC2WithdrawByoipCidrResult *> *)withdrawByoipCidr:(AWSEC2WithdrawByoipCidrRequest *)request {
+    return [self invokeRequest:request
+                    HTTPMethod:AWSHTTPMethodPOST
+                     URLString:@""
+                  targetPrefix:@""
+                 operationName:@"WithdrawByoipCidr"
+                   outputClass:[AWSEC2WithdrawByoipCidrResult class]];
+}
+
+- (void)withdrawByoipCidr:(AWSEC2WithdrawByoipCidrRequest *)request
+     completionHandler:(void (^)(AWSEC2WithdrawByoipCidrResult *response, NSError *error))completionHandler {
+    [[self withdrawByoipCidr:request] continueWithBlock:^id _Nullable(AWSTask<AWSEC2WithdrawByoipCidrResult *> * _Nonnull task) {
+        AWSEC2WithdrawByoipCidrResult *result = task.result;
+        NSError *error = task.error;
 
         if (completionHandler) {
             completionHandler(result, error);

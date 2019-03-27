@@ -1,5 +1,5 @@
 //
-// Copyright 2010-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License").
 // You may not use this file except in compliance with the License.
@@ -119,7 +119,7 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
     AWSPinpointEvent *monetizationEvent = [[AWSPinpointEvent alloc] initWithEventType:PURCHASE_EVENT_NAME
                                                                        eventTimestamp:[AWSPinpointDateUtils utcTimeMillisNow]
                                                                               session:self.context.sessionClient.session];
-    
+
     [monetizationEvent addAttribute:product.productIdentifier forKey:PURCHASE_EVENT_PRODUCT_ID_ATTR];
     [monetizationEvent addAttribute:PURCHASE_EVENT_APPLE_STORE forKey:PURCHASE_EVENT_STORE_ATTR];
     [monetizationEvent addMetric:[NSNumber numberWithInteger:transaction.payment.quantity] forKey:PURCHASE_EVENT_QUANTITY_METRIC];
@@ -154,7 +154,7 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
     return monetizationEvent;
 }
 
--(AWSTask*) submitEvents {
+-(AWSTask *) submitEvents {
     return [self.eventRecorder submitAllEvents];
 }
 
@@ -168,9 +168,9 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
     }];
 }
 
--(AWSTask*) recordEvent:(AWSPinpointEvent *) theEvent {
+-(AWSTask *) recordEvent:(AWSPinpointEvent *) theEvent {
     if (theEvent == nil) {
-        AWSLogError(@"Nil event provided to recordEvent");
+        AWSDDLogError(@"Nil event provided to recordEvent");
         return [AWSTask taskWithError:[NSError errorWithDomain:AWSPinpointAnalyticsClientErrorDomain code:0 userInfo:@{@"InvalidParameter":@"Nil event provided to recordEvent"}]];
     }
     
@@ -200,7 +200,7 @@ NSString *const AWSPinpointAnalyticsClientErrorDomain = @"com.amazonaws.AWSPinpo
             [theEvent addMetric:[self.globalMetrics objectForKey:key] forKey:key];
         }
         
-        //Apply Campaign Attributes
+        // Apply Campaign Attributes
         for (NSString *key in [self.globalCampaignAttributes allKeys]) {
             [theEvent addAttribute:[self.globalCampaignAttributes objectForKey:key] forKey:key];
         }

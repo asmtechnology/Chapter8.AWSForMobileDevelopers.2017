@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  AWSSDKWithCocoaPods
 //
-//  Created by Abhishek Mishra on 03/03/2017.
-//  Copyright © 2017 ASM Technology Ltd. All rights reserved.
+//  Created by Abhishek Mishra on 27/03/2019.
+//  Copyright © 2019 Abhishek Mishra. All rights reserved.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }

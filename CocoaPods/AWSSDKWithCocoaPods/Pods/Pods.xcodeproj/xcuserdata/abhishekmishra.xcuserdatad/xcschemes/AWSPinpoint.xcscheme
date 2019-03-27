@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'D78D152BDACDFE093F652F4D2FF74D2E'
-               BlueprintName = 'AWSPinpoint'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'AWSPinpoint.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "53A570D5FFC8A2525C36B0D51337C85A"
+               BuildableName = "AWSPinpoint.framework"
+               BlueprintName = "AWSPinpoint"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
